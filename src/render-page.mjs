@@ -40,6 +40,10 @@ body.recording .foot{display:none}
 body.recording .pillrow{margin-top:10px}
 body.recording .caption{font-size:12px;padding:12px;left:14px;right:14px;bottom:14px}
 body.recording .focus-card{max-width:310px}
+
+.demo-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.demo-link{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:11px 15px;font-weight:950;text-decoration:none;background:#0f172a;color:#fff;border:1px solid #0f172a;box-shadow:0 10px 26px rgba(15,23,42,.16)}.demo-link.secondary{background:#fff;color:#132033;border-color:var(--line)}
+@media(min-width:981px){.hero{min-height:min(760px,calc(100vh - 88px))}.hero-copy{display:flex;flex-direction:column}.visual{min-height:0}.controls{margin-top:14px}.pillrow{margin-top:12px}.mission-brief{margin:16px 0}.hero p{line-height:1.52}.hero h1{font-size:clamp(38px,4.1vw,56px)}}
+@media(max-height:850px) and (min-width:981px){.wrap{padding-top:18px}.topbar{margin-bottom:12px}.hero{min-height:calc(100vh - 62px);gap:16px}.hero-copy{padding:24px}.hero h1{font-size:42px;margin:10px 0}.hero p{font-size:14px;line-height:1.42;margin:7px 0}.mission-brief{margin:12px 0;gap:8px}.metric{padding:10px}.metric b{font-size:20px}.controls button,.task-select{padding:9px 12px}.pill{padding:7px 9px}.visual-toolbar{left:14px;right:14px;top:14px}.focus-card{max-width:250px;padding:11px}.caption{left:14px;right:14px;bottom:14px;padding:12px;font-size:12px}.note{font-size:11px;padding:8px 9px}.hotspot{grid-template-columns:auto minmax(110px,180px)}.mini-panel{bottom:100px}.system-strip{bottom:100px}}
 @media(max-width:980px){.hero,.lesson-shell{grid-template-columns:1fr}.visual{min-height:380px}.side{position:static}.hero h1{font-size:42px}.layers,.progress,.mission-brief{grid-template-columns:1fr}}
 </style>
 </head>
@@ -64,6 +68,7 @@ body.recording .focus-card{max-width:310px}
       <div class="kicker">Choose a role</div>
       <div class="controls" id="roleControls"></div>
       <div class="pillrow"><span class="pill">Observation before answers</span><span class="pill">Hints unlock progressively</span><span class="pill">Teacher notes protected</span></div>
+      <div class="demo-actions"><a class="demo-link" href="recording.html">Watch auto tour</a><a class="demo-link secondary" href="browser-lit.html">Open wallet route</a></div>
     </div>
     <div class="panel visual">
       <img id="missionImage" src="assets/nasa-mars-valley-network-pia17905.jpg" alt="NASA Mars valley network reference image" />
