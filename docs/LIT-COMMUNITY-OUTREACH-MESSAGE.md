@@ -7,7 +7,8 @@ Use this after submitting the grant proposal, or as a pre-submission feedback re
 Hi Lit team — I built an open-source **Lit-gated AI learning module template** and would appreciate feedback on whether it fits the Small Grants scope.
 
 Repo: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template  
-Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4
+Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4  
+Hosted demo: https://misterwin0553-droid.github.io/lit-gated-ai-learning-template/
 
 The template demonstrates progressive access for educational content layers: public learner observations, student clues, teacher guidance, source annotations, and AI context gating. The goal is to help developers use Lit not only for gated content, but for permission-aware AI learning applications.
 
@@ -29,7 +30,8 @@ I’d appreciate feedback on whether this fits the Small Grants scope and what w
 Hi Lit team — I submitted / am preparing to submit a Small Grants proposal for an open-source **Lit-gated AI learning module template**.
 
 Repo: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template  
-Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4
+Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4  
+Hosted demo: https://misterwin0553-droid.github.io/lit-gated-ai-learning-template/
 
 The project is a developer-education artifact showing how Lit can be used for more than a simple token-gated page. The reference demo is a NASA Mars investigation with progressive content layers:
 
