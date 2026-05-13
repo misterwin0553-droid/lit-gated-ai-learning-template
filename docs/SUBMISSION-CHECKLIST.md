@@ -54,7 +54,7 @@ Fill before final posting:
 ```text
 GitHub repo: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template
 Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4
-Hosted demo: TBD
+Hosted demo: https://misterwin0553-droid.github.io/lit-gated-ai-learning-template/
 ```
 
 Local demo routes:

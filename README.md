@@ -48,6 +48,12 @@ Local copy:
 recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4
 ```
 
+## Hosted demo
+
+```text
+https://misterwin0553-droid.github.io/lit-gated-ai-learning-template/
+```
+
 ## Polished course demo
 
 Run:

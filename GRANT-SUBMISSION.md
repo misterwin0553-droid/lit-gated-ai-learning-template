@@ -1,12 +1,20 @@
-# Lit Small Grants Submission: Lit-Gated AI Learning Module Template
+# Lit Small Grants Submission
+
+## Project
+
+**Lit-Gated AI Learning Module Template**
+
+## Links
+
+- GitHub repo: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template
+- Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4
+- Hosted demo: https://misterwin0553-droid.github.io/lit-gated-ai-learning-template/
+
+---
 
 ## 1. What is your project? *(max 100 words)*
 
 I built an open-source **Lit-gated AI learning module template**. The reference demo uses a NASA Mars investigation to show progressive access across public observations, student clues, teacher guidance, source annotations, and AI assistant context. Instead of a simple token-gated content page, the template demonstrates how Lit access control can protect staged learning layers and control what context an AI assistant may use for each role.
-
-Repo: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template  
-Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4  
-Demo status: current MVP includes polished role-switching lesson UI, deterministic access tests, browser wallet Lit route, and diagnostics.
 
 ---
 
@@ -35,7 +43,7 @@ The deliverable will be an MIT-licensed template that helps Lit developers build
 
 ## 4. Is this project open source?
 
-Yes. Code will be MIT licensed. Reference content uses public/cited NASA material and will retain attribution.
+Yes. Code is MIT licensed. Reference content uses public/cited NASA material and retains attribution.
 
 ---
 
@@ -49,18 +57,9 @@ Yes.
 
 Not created at a hackathon.
 
-Planned links before final submission:
-
 - GitHub repo: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template
 - Demo video: https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/recordings/lit-gated-learning-demo-recording-page-20260513-151058.mp4
 - Hosted demo: https://misterwin0553-droid.github.io/lit-gated-ai-learning-template/
-
-Current local demo routes:
-
-```text
-/public/index.html      # polished course demo
-/browser-lit.html       # browser wallet + Lit route
-```
 
 ---
 
