@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+dist/
+# Keep accepted demo video; ignore future raw recordings by default.
+recordings/*.mov
+recordings/frames*/

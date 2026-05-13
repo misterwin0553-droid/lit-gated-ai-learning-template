@@ -1,0 +1,120 @@
+{
+  "missionId": "mars-water-evidence",
+  "title": "Mission 001: Mars Water Evidence Explorer",
+  "subtitle": "A NASA-based reference demo for Lit-gated interactive learning content.",
+  "sourceNote": "Reference demo uses NASA-style public-domain space science material. Replace with verified NASA API assets before external submission.",
+  "layers": [
+    {
+      "id": "public",
+      "label": "Public Mission Brief",
+      "audience": "Everyone",
+      "locked": false,
+      "items": [
+        {
+          "id": "mission-intro",
+          "title": "Your Mission",
+          "body": "Look at a Mars terrain image and identify surface shapes that could suggest past fluid movement. Your goal is not to prove water existed, but to learn how scientists reason from visual evidence."
+        },
+        {
+          "id": "observation-prompt",
+          "title": "First Observation Prompt",
+          "body": "Find three shapes in the terrain: branching channels, curved ridges, or fan-like deposits. Write what you see before reading any clues."
+        }
+      ]
+    },
+    {
+      "id": "student",
+      "label": "Student Clue Layer",
+      "audience": "Authorized learner",
+      "locked": true,
+      "items": [
+        {
+          "id": "clue-branching",
+          "title": "Clue 1 — Branching Patterns",
+          "body": "Branching channels can be consistent with past flowing liquid, but similar shapes can also form through other geological processes. Look for repeated branching, directionality, and relation to lower terrain."
+        },
+        {
+          "id": "clue-fan",
+          "title": "Clue 2 — Fan-Shaped Deposits",
+          "body": "A fan-shaped deposit near the end of a channel can suggest transported sediment. Ask: where would material have come from, and where would it settle?"
+        }
+      ]
+    },
+    {
+      "id": "teacher",
+      "label": "Teacher Guide Layer",
+      "audience": "Teacher / reviewer",
+      "locked": true,
+      "items": [
+        {
+          "id": "answer-key",
+          "title": "Answer Key Guidance",
+          "body": "Students should distinguish observation from conclusion. Accept answers that cite visible evidence and uncertainty. Do not reward claims that a single image proves liquid water."
+        },
+        {
+          "id": "misconception-note",
+          "title": "Common Misconception",
+          "body": "A water-like shape is not direct proof of water. The learning objective is evidence ranking: shape, context, alternative explanations, and confidence."
+        }
+      ]
+    },
+    {
+      "id": "source",
+      "label": "Source Annotation Layer",
+      "audience": "Creator / owner",
+      "locked": true,
+      "items": [
+        {
+          "id": "source-map",
+          "title": "Source Mapping Note",
+          "body": "Before external release, connect this module to a specific NASA API image, citation, mission page, and a short source note explaining why the image is suitable for this lesson."
+        },
+        {
+          "id": "content-design-rationale",
+          "title": "Content Design Rationale",
+          "body": "The module separates public observation, learner clues, teacher answers, and source annotations to demonstrate progressive access rather than static content locking."
+        }
+      ]
+    }
+  ],
+  "aiTasks": {
+    "public_summary": {
+      "description": "Write a public mission summary.",
+      "allowedLayers": [
+        "public"
+      ]
+    },
+    "student_hint": {
+      "description": "Generate a hint after the learner attempts the observation.",
+      "allowedLayers": [
+        "public",
+        "student"
+      ]
+    },
+    "teacher_script": {
+      "description": "Prepare teacher guidance and answer discussion.",
+      "allowedLayers": [
+        "public",
+        "student",
+        "teacher"
+      ]
+    },
+    "source_review": {
+      "description": "Review source annotations and content-design rationale.",
+      "allowedLayers": [
+        "public",
+        "student",
+        "teacher",
+        "source"
+      ]
+    }
+  },
+  "media": {
+    "image": "public/assets/nasa-mars-valley-network-pia17905.jpg",
+    "sourceUrl": "https://images.nasa.gov/details/PIA17905",
+    "nasaId": "PIA17905",
+    "title": "A Complex Valley Network Near Idaeus Fossae",
+    "credit": "NASA/JPL-Caltech/University of Arizona",
+    "description": "Many valleys occur all over Mars that reveal an extensive ancient history of liquid water erosion. This image from NASA Mars Reconnaissance Orbiter shows a complex valley network near Idaeus Fossae."
+  }
+}

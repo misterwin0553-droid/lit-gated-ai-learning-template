@@ -1,0 +1,233 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { buildAccessReport } from './context-builder.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(__dirname, '..');
+const mission = JSON.parse(fs.readFileSync(path.join(root, 'content/mission.json'), 'utf8'));
+const roles = ['public_learner', 'student', 'teacher', 'owner'];
+const tasks = ['public_summary', 'student_hint', 'teacher_script', 'source_review'];
+const report = buildAccessReport(mission, roles, tasks);
+
+const esc = (value) => String(value ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const js = JSON.stringify({ mission, report });
+
+const html = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${esc(mission.title)}</title>
+<style>
+:root{--bg:#07111f;--bg2:#10243d;--paper:#fff7e8;--card:#fffdf8;--ink:#132033;--muted:#6a7280;--line:#eadfc8;--blue:#2563eb;--cyan:#38bdf8;--orange:#f59e0b;--green:#16a34a;--red:#ef4444;--violet:#7c3aed;--dark:#0f172a;--shadow:0 24px 80px rgba(15,23,42,.18)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 0%,rgba(245,158,11,.28),transparent 28%),radial-gradient(circle at 85% 8%,rgba(56,189,248,.22),transparent 30%),linear-gradient(135deg,#07111f 0%,#10243d 45%,#2a1408 100%);min-height:100vh}.wrap{max-width:1240px;margin:0 auto;padding:28px 22px 64px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px;color:#e5edf7}.brand{display:flex;align-items:center;gap:12px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;font-size:12px}.planet{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 32% 25%,#ffd29a,#d97706 48%,#7c2d12 100%);box-shadow:0 0 28px rgba(245,158,11,.55)}.status-chip{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);backdrop-filter:blur(16px);border-radius:999px;padding:9px 13px;font-size:12px;color:#dbeafe}.hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);gap:22px;align-items:stretch}.panel{background:rgba(255,253,248,.94);border:1px solid rgba(234,223,200,.9);border-radius:32px;box-shadow:var(--shadow);overflow:hidden}.hero-copy{padding:30px}.kicker{color:#b45309;font-weight:950;letter-spacing:.13em;font-size:12px;text-transform:uppercase}.hero h1{font-size:56px;line-height:.98;margin:14px 0 14px;letter-spacing:-.045em}.hero p{font-size:16px;color:var(--muted);line-height:1.65;max-width:620px}.mission-brief{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px}.metric b{display:block;font-size:22px;letter-spacing:-.03em}.metric span{display:block;color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.controls button,.task-select{border:1px solid var(--line);background:#fff;border-radius:999px;padding:11px 15px;font-weight:900;color:var(--ink);cursor:pointer;transition:.18s ease;box-shadow:0 8px 22px rgba(15,23,42,.06)}.controls button:hover,.task-select:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(15,23,42,.10)}.controls button.active{background:var(--dark);color:white;border-color:var(--dark)}.visual{position:relative;min-height:520px;background:#060a10}.visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.08) saturate(1.08) brightness(.86);transition:filter .25s ease}.visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,10,16,.02),rgba(6,10,16,.80))}.hotspots{position:absolute;inset:0;z-index:2}.hotspot{position:absolute;z-index:2;transform:translate(-50%,-50%);display:grid;grid-template-columns:auto minmax(130px,210px);align-items:center;gap:9px}.pin{width:18px;height:18px;border-radius:999px;background:#fbbf24;border:3px solid #fff;box-shadow:0 0 0 10px rgba(251,191,36,.18),0 12px 28px rgba(0,0,0,.35);animation:pulse 2.4s infinite}.hotspot.student .pin{background:#38bdf8}.hotspot.teacher .pin{background:#a78bfa}.hotspot.owner .pin{background:#34d399}.note{color:#f8fafc;background:rgba(6,10,16,.72);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(14px);border-radius:16px;padding:10px 11px;font-size:12px;line-height:1.38;box-shadow:0 14px 40px rgba(0,0,0,.25)}.note b{display:block;color:#fff;font-size:12px;margin-bottom:3px}.caption{position:absolute;left:18px;right:18px;bottom:18px;z-index:2;color:#e5e7eb;background:rgba(6,10,16,.72);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);border-radius:22px;padding:16px;font-size:13px;line-height:1.55}.caption strong{color:#fff}.visual-toolbar{position:absolute;left:18px;top:18px;right:18px;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.visual-badge{background:rgba(255,255,255,.9);color:#0f172a;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:950}.focus-card{max-width:260px;background:rgba(255,253,248,.92);color:#132033;border:1px solid rgba(234,223,200,.9);border-radius:20px;padding:13px;box-shadow:0 18px 50px rgba(0,0,0,.22)}.focus-card b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#b45309;margin-bottom:5px}.focus-card p{margin:0;font-size:13px;line-height:1.42;color:#475569}.stage-canvas{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .22s ease;pointer-events:none}.stage-canvas.active{opacity:1}.evidence-map{background:radial-gradient(circle at 24% 36%,rgba(56,189,248,.28),transparent 9%),radial-gradient(circle at 55% 50%,rgba(251,191,36,.30),transparent 12%),linear-gradient(135deg,rgba(15,23,42,.08),rgba(15,23,42,.55))}.evidence-map svg,.reasoning-board svg,.terrain-3d svg{position:absolute;inset:0;width:100%;height:100%}.reasoning-board{background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(49,46,129,.72))}.terrain-3d{background:linear-gradient(180deg,rgba(8,13,25,.20),rgba(8,13,25,.82))}.mini-panel{position:absolute;z-index:2;right:18px;bottom:118px;width:260px;background:rgba(255,253,248,.92);border:1px solid rgba(234,223,200,.9);border-radius:20px;padding:12px;color:#132033;box-shadow:0 18px 46px rgba(0,0,0,.24)}.mini-panel b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#b45309;margin-bottom:5px}.mini-panel p{margin:0;color:#475569;font-size:12px;line-height:1.4}.system-strip{position:absolute;left:18px;right:18px;bottom:118px;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.system-step{background:rgba(255,255,255,.9);border:1px solid rgba(234,223,200,.9);border-radius:15px;padding:10px;color:#132033;font-size:12px;font-weight:900}.system-step span{display:block;color:#64748b;font-weight:700;margin-top:3px}.visual.raw .stage-canvas{opacity:0}.visual.student-stage .evidence-map,.visual.teacher-stage .reasoning-board,.visual.owner-stage .terrain-3d{opacity:1}.tour-badge{position:fixed;right:22px;bottom:22px;z-index:50;background:rgba(15,23,42,.92);color:#fff;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:12px 16px;font-size:13px;font-weight:900;box-shadow:0 18px 50px rgba(0,0,0,.28);display:none}.tour-badge.on{display:block}.tour-badge span{color:#fbbf24}@keyframes pulse{0%,100%{box-shadow:0 0 0 8px rgba(251,191,36,.18),0 12px 28px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 16px rgba(251,191,36,.05),0 12px 28px rgba(0,0,0,.35)}}.lesson-shell{display:grid;grid-template-columns:minmax(0,1.08fr) 380px;gap:20px;margin-top:22px}.lesson-main{padding:22px}.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px}.section-title h2{margin:0;font-size:26px;letter-spacing:-.03em}.section-title p{margin:4px 0 0;color:var(--muted)}.progress{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px}.step{border:1px solid var(--line);border-radius:18px;padding:12px;background:#fff;color:var(--muted);font-size:12px;font-weight:900}.step.on{background:#ecfdf3;color:#166534;border-color:#bbf7d0}.step.lock{background:#f8fafc;color:#94a3b8}.layers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.layer{position:relative;border:1px solid var(--line);border-radius:26px;padding:18px;background:#fff;min-height:210px;overflow:hidden;box-shadow:0 12px 30px rgba(15,23,42,.06)}.layer.unlocked{border-color:#bbf7d0}.layer.locked{background:linear-gradient(135deg,#fbfbfa,#f1f5f9);color:#64748b}.layer.locked:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-45deg,rgba(148,163,184,.08),rgba(148,163,184,.08) 8px,transparent 8px,transparent 18px);pointer-events:none}.layer-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;position:relative}.eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:950}.layer h2{margin:4px 0 10px;font-size:19px;letter-spacing:-.02em}.badge{font-size:11px;font-weight:950;letter-spacing:.08em;padding:7px 10px;border-radius:999px;background:#ecfdf3;color:var(--green);white-space:nowrap}.locked .badge{background:#e2e8f0;color:#64748b}.lock-icon{position:absolute;right:18px;bottom:14px;font-size:34px;opacity:.22}.layer article{position:relative;border-top:1px solid #eef0f2;padding-top:12px;margin-top:12px}.layer h3{margin:0 0 6px;font-size:14px}.layer article p{margin:0;color:var(--muted);line-height:1.52;font-size:13px}.side{position:sticky;top:18px;align-self:start;padding:22px}.side h2{margin:8px 0 12px;font-size:24px}.ai-status{font-weight:950;font-size:14px;border-radius:18px;padding:13px;margin:14px 0}.ok{color:#166534;background:#ecfdf3;border:1px solid #bbf7d0}.denied{color:#991b1b;background:#fef2f2;border:1px solid #fecaca}.context-box{background:#0b1220;color:#dbeafe;border-radius:22px;padding:16px;max-height:430px;overflow:auto;font-size:12px;line-height:1.55;border:1px solid rgba(255,255,255,.08)}.source{margin-top:14px;color:#64748b;font-size:13px;line-height:1.5}.source a{color:#2563eb}.foot{margin-top:22px;color:#dbeafe;font-size:13px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:16px}.pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.pill{font-size:12px;font-weight:900;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 10px;color:#475569}
+body.recording{overflow:hidden;background:#07111f}
+body.recording .wrap{max-width:none;width:1920px;height:1080px;padding:20px 28px 28px;display:grid;grid-template-rows:auto 1fr;gap:12px}
+body.recording .topbar{margin-bottom:0}
+body.recording .hero{height:100%;min-height:0;grid-template-columns:1.02fr .98fr;gap:18px}
+body.recording .hero-copy{padding:26px}
+body.recording .hero h1{font-size:44px;line-height:.98;margin:10px 0 10px}
+body.recording .hero p{font-size:15px;line-height:1.45;margin:8px 0;max-width:760px}
+body.recording .mission-brief{margin:14px 0;gap:8px}
+body.recording .metric{padding:10px 12px;border-radius:16px}
+body.recording .metric b{font-size:20px}
+body.recording .controls{margin-top:12px;gap:8px}
+body.recording .controls button{padding:10px 13px}
+body.recording .visual{min-height:0;height:100%}
+body.recording .lesson-shell{display:none}
+body.recording .foot{display:none}
+body.recording .pillrow{margin-top:10px}
+body.recording .caption{font-size:12px;padding:12px;left:14px;right:14px;bottom:14px}
+body.recording .focus-card{max-width:310px}
+@media(max-width:980px){.hero,.lesson-shell{grid-template-columns:1fr}.visual{min-height:380px}.side{position:static}.hero h1{font-size:42px}.layers,.progress,.mission-brief{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="topbar">
+    <div class="brand"><span class="planet"></span><span>Lit-Gated Lesson Lab</span></div>
+    <div class="status-chip">Progressive access · AI context gating · NASA reference mission</div>
+  </header>
+
+  <section class="hero">
+    <div class="panel hero-copy">
+      <div class="kicker">Interactive course demo</div>
+      <h1>${esc(mission.title)}</h1>
+      <p>${esc(mission.subtitle)}</p>
+      <p>Step into a Mars investigation. Learners observe first, unlock clues later, and teachers/source reviewers receive deeper context only when their role permits it.</p>
+      <div class="mission-brief">
+        <div class="metric"><b>4</b><span>content layers</span></div>
+        <div class="metric"><b>4</b><span>learner roles</span></div>
+        <div class="metric"><b>AI</b><span>context gated</span></div>
+      </div>
+      <div class="kicker">Choose a role</div>
+      <div class="controls" id="roleControls"></div>
+      <div class="pillrow"><span class="pill">Observation before answers</span><span class="pill">Hints unlock progressively</span><span class="pill">Teacher notes protected</span></div>
+    </div>
+    <div class="panel visual">
+      <img id="missionImage" src="assets/nasa-mars-valley-network-pia17905.jpg" alt="NASA Mars valley network reference image" />
+      <div class="stage-canvas evidence-map" id="evidenceMap">
+        <svg viewBox="0 0 1000 700" aria-hidden="true"><path d="M150 250 C260 255 300 330 410 345 S570 410 705 405" fill="none" stroke="#38bdf8" stroke-width="10" stroke-linecap="round" opacity=".85"/><path d="M285 300 C330 270 370 250 430 235" fill="none" stroke="#7dd3fc" stroke-width="5" stroke-linecap="round"/><path d="M325 335 C370 360 420 380 470 430" fill="none" stroke="#7dd3fc" stroke-width="5" stroke-linecap="round"/><path d="M650 400 C710 430 765 470 810 545 C735 535 660 505 610 455Z" fill="rgba(251,191,36,.38)" stroke="#fbbf24" stroke-width="4"/><circle cx="150" cy="250" r="14" fill="#38bdf8"/><circle cx="810" cy="545" r="14" fill="#fbbf24"/></svg>
+        <div class="mini-panel"><b>Evidence overlay</b><p>Student unlock reveals candidate channels, branch direction, and possible sediment deposit zones.</p></div>
+      </div>
+      <div class="stage-canvas reasoning-board" id="reasoningBoard">
+        <svg viewBox="0 0 1000 700" aria-hidden="true"><rect x="110" y="130" width="220" height="95" rx="22" fill="rgba(255,255,255,.9)"/><text x="140" y="170" fill="#0f172a" font-size="24" font-weight="800">Observation</text><text x="140" y="202" fill="#64748b" font-size="18">branching shapes</text><rect x="390" y="285" width="220" height="95" rx="22" fill="rgba(255,255,255,.9)"/><text x="420" y="325" fill="#0f172a" font-size="24" font-weight="800">Evidence</text><text x="420" y="357" fill="#64748b" font-size="18">supports flow?</text><rect x="670" y="450" width="230" height="95" rx="22" fill="rgba(255,255,255,.9)"/><text x="700" y="490" fill="#0f172a" font-size="24" font-weight="800">Claim</text><text x="700" y="522" fill="#64748b" font-size="18">rank confidence</text><path d="M330 205 C390 230 410 260 430 285" fill="none" stroke="#fbbf24" stroke-width="8" marker-end="url(#a)"/><path d="M610 360 C675 382 705 420 735 450" fill="none" stroke="#fbbf24" stroke-width="8" marker-end="url(#a)"/><defs><marker id="a" markerWidth="10" markerHeight="10" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#fbbf24"/></marker></defs></svg>
+        <div class="system-strip"><div class="system-step">1 Observe<span>Describe visible forms</span></div><div class="system-step">2 Compare<span>Check alternatives</span></div><div class="system-step">3 Conclude<span>State confidence</span></div></div>
+      </div>
+      <div class="stage-canvas terrain-3d" id="terrain3d">
+        <svg viewBox="0 0 1000 700" aria-hidden="true"><polygon points="155,465 430,310 830,430 560,600" fill="rgba(251,146,60,.72)" stroke="#fed7aa" stroke-width="4"/><polygon points="430,310 610,235 910,340 830,430" fill="rgba(180,83,9,.72)" stroke="#fed7aa" stroke-width="4"/><polygon points="155,465 560,600 560,650 155,515" fill="rgba(124,45,18,.86)"/><polygon points="560,600 830,430 830,485 560,650" fill="rgba(154,52,18,.88)"/><path d="M465 330 C510 370 548 410 610 435 C680 465 710 505 760 540" fill="none" stroke="#38bdf8" stroke-width="12" stroke-linecap="round" opacity=".9"/><path d="M735 520 C790 545 835 575 870 620 C800 620 730 595 680 560Z" fill="rgba(251,191,36,.45)" stroke="#fbbf24" stroke-width="4"/></svg>
+        <div class="mini-panel"><b>3D terrain model</b><p>Future module slot: swap this CSS/SVG cutaway for an interactive Three.js elevation model.</p></div>
+      </div>
+      <div class="visual-toolbar">
+        <div class="visual-badge" id="visualMode">Observation mode</div>
+        <div class="focus-card"><b id="focusTitle">Observe first</b><p id="focusText">Look for patterns before reading clues.</p></div>
+      </div>
+      <div class="hotspots" id="hotspots"></div>
+      <div class="caption" id="visualCaption"><strong>Investigation image:</strong> ${esc(mission.media?.title)} · NASA ID ${esc(mission.media?.nasaId)} · ${esc(mission.media?.credit)}<br/>Look for branching channels, fan-shaped deposits, and terrain relationships before opening clue layers.</div>
+    </div>
+  </section>
+
+  <section class="panel lesson-shell">
+    <div class="lesson-main">
+      <div class="section-title">
+        <div><div class="kicker">Lesson layers</div><h2 id="roleHeadline">Student mission room</h2><p id="roleSubhead">Unlocked content changes by role.</p></div>
+      </div>
+      <div class="progress" id="progress"></div>
+      <div class="layers" id="layers"></div>
+    </div>
+    <aside class="side">
+      <div class="kicker">AI context gating</div>
+      <h2>What can the AI see?</h2>
+      <select class="task-select" id="taskSelect"></select>
+      <p id="taskStatus" class="ai-status"></p>
+      <pre class="context-box" id="taskContext"></pre>
+      <p class="source">Source: <a href="${esc(mission.media?.sourceUrl)}" target="_blank" rel="noreferrer">${esc(mission.media?.sourceUrl)}</a></p>
+    </aside>
+  </section>
+  <p class="foot">This polished lesson view is the deterministic course demo. The separate browser-wallet route proves wallet connection + Lit SDK initialization; live Lit encrypt/decrypt is currently blocked by external Lit node/relayer reachability from the local environment.</p>
+</main>
+<script id="demo-data" type="application/json">${js.replace(/</g, '\u003c')}</script>
+<script>
+const data = JSON.parse(document.getElementById('demo-data').textContent);
+const roles = Object.keys(data.report.roles);
+const tasks = Object.keys(data.mission.aiTasks);
+let currentRole = 'student';
+let currentTask = 'student_hint';
+const labelRole = {public_learner:'Public learner',student:'Student',teacher:'Teacher',owner:'Owner'};
+const roleCopy = {
+  public_learner:['Public observation deck','Only the mission brief is visible. Clues, answers, and source notes stay locked.'],
+  student:['Student mission room','Learner clues open, but teacher answers and source notes remain protected.'],
+  teacher:['Teacher control room','Teacher guidance opens so instruction can be prepared without exposing creator notes.'],
+  owner:['Creator source room','All layers open, including source mapping and content-design rationale.']
+};
+const visualLayers = {
+  public_learner:{
+    stage:'raw',
+    mode:'Raw orbital image', focus:['Observe first','Do not conclude “water” yet. Start by naming visible shapes and uncertainty.'], filter:'contrast(1.02) saturate(.92) brightness(.82)',
+    caption:'<strong>Public view:</strong> Start with raw observation. The image is intentionally under-explained so learners separate what they see from what they infer.',
+    notes:[
+      {x:27,y:34,type:'public',title:'Shape hunt',body:'Can you trace any branching lines?'},
+      {x:58,y:47,type:'public',title:'Terrain relation',body:'Which areas look lower or smoother?'},
+      {x:73,y:28,type:'public',title:'Uncertainty',body:'List possibilities before choosing one.'}
+    ]
+  },
+  student:{
+    stage:'student-stage',
+    mode:'Evidence map unlocked', focus:['Learner clue unlocked','The background upgrades from raw image to evidence overlay: channels, deposits, alternatives.'], filter:'contrast(1.1) saturate(1.05) brightness(.9)',
+    caption:'<strong>Student view:</strong> Clues highlight where to look: repeated branching, fan-like deposits, and whether material appears to move from high to low terrain.',
+    notes:[
+      {x:25,y:35,type:'student',title:'Branching channels',body:'Repeated branching can be consistent with past flow.'},
+      {x:55,y:50,type:'student',title:'Possible deposit zone',body:'Ask where transported sediment might settle.'},
+      {x:70,y:31,type:'student',title:'Compare alternatives',body:'Wind, collapse, and erosion can mimic water-like shapes.'}
+    ]
+  },
+  teacher:{
+    stage:'teacher-stage',
+    mode:'Reasoning board unlocked', focus:['Teaching lens','The visual now becomes a reasoning system: observation → evidence → confidence-ranked claim.'], filter:'contrast(1.04) saturate(.78) brightness(.55)',
+    caption:'<strong>Teacher view:</strong> The overlay now emphasizes discussion prompts and common misconceptions, turning the same image into a guided classroom sequence.',
+    notes:[
+      {x:23,y:36,type:'teacher',title:'Prompt',body:'Ask: what visible evidence supports this interpretation?'},
+      {x:57,y:49,type:'teacher',title:'Misconception check',body:'A water-like shape is not direct proof of water.'},
+      {x:75,y:30,type:'teacher',title:'Assessment target',body:'Students should rank evidence and alternatives.'}
+    ]
+  },
+  owner:{
+    stage:'owner-stage',
+    mode:'3D/source model unlocked', focus:['Creator/source layer','The deepest layer points toward 3D terrain, source verification, and reusable module design.'], filter:'contrast(1.0) saturate(.72) brightness(.50)',
+    caption:'<strong>Owner view:</strong> Source annotations are unlocked: image ID, credit, design rationale, and what must be verified before external publication.',
+    notes:[
+      {x:20,y:32,type:'owner',title:'NASA asset',body:'PIA17905 · cite exact source before release.'},
+      {x:55,y:52,type:'owner',title:'Design reason',body:'Same image supports public, learner, teacher, and source layers.'},
+      {x:78,y:25,type:'owner',title:'Release checklist',body:'Verify source URL, caption, credit, and learning claims.'}
+    ]
+  }
+};
+function renderControls(){
+  roleControls.innerHTML = roles.map(r => '<button data-role="'+r+'" class="'+(r===currentRole?'active':'')+'">'+labelRole[r]+'</button>').join('');
+  roleControls.querySelectorAll('button').forEach(b => b.onclick = () => { currentRole=b.dataset.role; render(); });
+  taskSelect.innerHTML = tasks.map(t => '<option value="'+t+'">'+t.replaceAll('_',' ')+'</option>').join('');
+  taskSelect.value = currentTask;
+  taskSelect.onchange = () => { currentTask=taskSelect.value; renderTask(); };
+}
+function renderProgress(view){
+  progress.innerHTML = view.map((layer, index) => '<div class="step '+(layer.status==='unlocked'?'on':'lock')+'"><span>'+(index+1)+'. '+layer.label.replace(' Layer','').replace('Public Mission Brief','Mission Brief')+'</span><br/><small>'+(layer.status==='unlocked'?'Unlocked':'Locked')+'</small></div>').join('');
+}
+function renderVisual(){
+  const visual = visualLayers[currentRole] || visualLayers.student;
+  document.querySelector('.visual').className = 'panel visual ' + (visual.stage || 'raw');
+  visualMode.textContent = visual.mode;
+  focusTitle.textContent = visual.focus[0];
+  focusText.textContent = visual.focus[1];
+  missionImage.style.filter = visual.filter;
+  visualCaption.innerHTML = visual.caption;
+  hotspots.innerHTML = visual.notes.map(note => '<div class="hotspot '+note.type+'" style="left:'+note.x+'%;top:'+note.y+'%"><span class="pin"></span><span class="note"><b>'+note.title+'</b>'+note.body+'</span></div>').join('');
+}
+function renderLayers(){
+  const view = data.report.roles[currentRole];
+  const copy = roleCopy[currentRole] || roleCopy.student;
+  roleHeadline.textContent = copy[0];
+  roleSubhead.textContent = copy[1];
+  renderProgress(view);
+  layers.innerHTML = view.map(layer => '<section class="layer '+layer.status+'"><div class="layer-head"><div><span class="eyebrow">'+layer.audience+'</span><h2>'+layer.label+'</h2></div><span class="badge">'+layer.status.toUpperCase()+'</span></div>'+layer.items.map(item => '<article><h3>'+item.title+'</h3><p>'+item.body+'</p></article>').join('')+(layer.status==='locked'?'<div class="lock-icon">🔒</div>':'')+'</section>').join('');
+}
+function renderTask(){
+  const task = data.report.aiTasks[currentRole][currentTask];
+  taskStatus.className = 'ai-status ' + (task.permitted ? 'ok' : 'denied');
+  taskStatus.textContent = task.permitted ? 'Allowed · AI context can be built for this role.' : 'Denied · this role lacks at least one required layer.';
+  taskContext.textContent = JSON.stringify({task: currentTask, description: task.description, includedLayers: task.includedLayers, deniedLayers: task.deniedLayers, context: task.context}, null, 2);
+}
+function render(){ renderControls(); renderVisual(); renderLayers(); renderTask(); }
+const tourRoles = ['public_learner','student','teacher','owner'];
+let tourTimer = null;
+window.startDemoTour = function startDemoTour(options={}){
+  const delay = options.delay || 4200;
+  const repeat = options.repeat || false;
+  clearInterval(tourTimer);
+  let index = 0;
+  tourBadge.classList.add('on');
+  function step(){
+    currentRole = tourRoles[index];
+    currentTask = currentRole === 'public_learner' ? 'public_summary' : currentRole === 'student' ? 'student_hint' : currentRole === 'teacher' ? 'teacher_script' : 'source_review';
+    tourRole.textContent = currentRole.replace('_',' ');
+    render();
+    index += 1;
+    if(index >= tourRoles.length){
+      if(repeat){ index = 0; }
+      else { clearInterval(tourTimer); setTimeout(()=>tourBadge.classList.remove('on'), delay); }
+    }
+  }
+  step();
+  tourTimer = setInterval(step, delay);
+};
+window.stopDemoTour = function stopDemoTour(){ clearInterval(tourTimer); tourBadge.classList.remove('on'); };
+if(params.get('tour') === 'auto'){
+  setTimeout(()=>window.startDemoTour({delay:5000, repeat:false}), 1600);
+}
+render();
+</script>
+</body>
+</html>`;
+
+fs.writeFileSync(path.join(root, 'public/index.html'), html);
+console.log('Rendered polished interactive public/index.html');
