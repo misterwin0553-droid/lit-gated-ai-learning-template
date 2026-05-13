@@ -64,13 +64,11 @@ https://github.com/misterwin0553-droid/lit-gated-ai-learning-template/blob/main/
 
 ## Privacy note
 
-The public issue uses:
+The public issue now uses the user-approved contact email:
 
 ```text
-Email: available upon request
+Email: misterwin0553@gmail.com
 ```
-
-This avoids exposing private contact information in a public GitHub issue.
 
 ## Monitoring target
 
